@@ -2,32 +2,42 @@
 
 ## Project Overview
 
-This project demonstrates my ability to perform web and phishing investigations using URLScan.io in a simulated Security Operations Center (SOC) environment.
+This repository documents a phishing triage exercise performed using URLScan.io.
 
-The objective was to analyze a publicly available website, review its infrastructure, identify indicators of compromise (IOCs), and determine whether there was sufficient evidence to classify the website as suspicious or malicious.
+The goal of this investigation was to determine whether a reported website exhibited indicators commonly associated with phishing campaigns, including domain impersonation, suspicious infrastructure, and malicious network relationships.
 
-This investigation reflects the type of initial triage and analysis that a Tier 1 SOC Analyst would perform when responding to alerts involving suspicious links submitted by employees or detected by email security solutions.
+This project simulates the responsibilities of a Tier 1 Security Operations Center (SOC) Analyst responding to a user-submitted suspicious URL.
 
 ---
 
 ## Scenario
 
-A SOC analyst receives an alert indicating that an employee accessed the following website:
+At 9:12 AM, an employee reported receiving a link from an external source and requested assistance verifying its legitimacy.
 
-> `https://electronicsmartly.com`
+The employee stated:
 
-Management requests an initial assessment to determine whether the website exhibits signs of phishing, malicious activity, or suspicious infrastructure.
+> "I clicked on a website selling electronics products. It didn't ask me to log in, but I want to confirm whether it is safe."
+
+The reported URL was:
+
+```text
+https://electronicsmartly.com
+```
+
+The SOC team was tasked with performing an initial investigation and documenting its findings.
 
 ---
 
-## Investigation Objectives
+## Investigation Workflow
 
-* Determine whether the domain is suspicious.
-* Review the website's appearance and page title.
-* Identify the domain's age and registrar.
-* Analyze contacted domains and IP addresses.
-* Assess whether there is evidence of phishing.
-* Document findings and provide a recommendation.
+1. Submit URL to URLScan.io.
+2. Review website appearance.
+3. Analyze page title.
+4. Review domain registration details.
+5. Analyze contacted domains.
+6. Review associated IP addresses.
+7. Determine whether sufficient evidence exists to classify the URL as malicious.
+8. Provide an analyst recommendation.
 
 ---
 
@@ -39,66 +49,137 @@ Management requests an initial assessment to determine whether the website exhib
 
 ---
 
-## Investigation Process
+## Step 1: Submit URL to URLScan.io
 
-### Step 1: Submit URL to URLScan.io
+The URL was submitted to URLScan.io to collect intelligence regarding its infrastructure and behavior.
 
-The URL was submitted to URLScan.io for analysis.
-
-**URL Submitted:**
+### URL Submitted
 
 ```text
 https://electronicsmartly.com
 ```
 
----
+### Analyst Observation
 
-### Step 2: Review Screenshot
+The submission completed successfully and returned a full infrastructure report for the domain.
 
-The first step during URL investigations is determining what the user would have seen.
+### Screenshot
 
-Observation:
-
-* Website displayed electronics-related content.
-* No login prompts were observed.
-* No signs of brand impersonation were identified.
-
-> SOC Note: A mismatch between the page title and the domain is often an indicator of phishing.
+<img src="screenshots/01-url-submission.png" width="900">
 
 ---
 
-### Step 3: Review Page Title
+## Step 2: Review Website Appearance
+
+The first step in any phishing investigation is understanding what the end user saw.
+
+URLScan generated a screenshot of the website during analysis.
+
+### Findings
+
+* Electronics-themed website.
+* No login page observed.
+* No credential request observed.
+* No evidence of banking or Microsoft impersonation.
+
+### Analyst Note
+
+One of the quickest phishing indicators is a mismatch between the domain name and the content displayed to the user.
+
+For example:
+
+* `microsoft-security-login.com`
+* `paypal-secure-update.net`
+* `apple-account-verify.org`
+
+No such mismatch was identified during this investigation.
+
+### Screenshot
+
+<img src="screenshots/02-website-screenshot.png" width="900">
+
+---
+
+## Step 3: Review Page Title
+
+The page title was analyzed to determine whether the website was attempting to impersonate another organization.
 
 | Field      | Value                                             |
 | ---------- | ------------------------------------------------- |
+| Domain     | electronicsmartly.com                             |
 | Page Title | Shop Cutting-Edge Wearable Tech Innovations Today |
 
-Analysis:
+### Findings
 
-* The title aligns with the website's purpose.
-* No evidence of impersonation of Microsoft, Google, PayPal, or banking institutions.
+* Title aligned with website content.
+* No evidence of impersonation.
+* No references to financial institutions or technology companies.
 
----
+### Analyst Assessment
 
-### Step 4: Review Domain Information
+At this stage, the website did not exhibit characteristics commonly observed in phishing campaigns.
 
-| Field      | Value                 |
-| ---------- | --------------------- |
-| Domain     | electronicsmartly.com |
-| Registrar  | NAMECHEAP INC         |
-| Domain Age | Approximately 2 Years |
+### Screenshot
 
-Analysis:
-
-* The domain is not newly registered.
-* Newly created domains are commonly observed in phishing campaigns.
-* Domain age does not indicate immediate concern.
+<img src="screenshots/03-page-title.png" width="900">
 
 ---
 
-### Step 5: Review Infrastructure
+## Step 4: Review Domain Information
 
-The following IP addresses were identified during the investigation:
+The next step involved reviewing registration details.
+
+| Field          | Value                 |
+| -------------- | --------------------- |
+| Registrar      | NAMECHEAP INC         |
+| Domain Created | October 31, 2024      |
+| Domain Age     | Approximately 2 Years |
+
+### Findings
+
+* Domain is not newly created.
+* Older domains generally carry lower phishing risk.
+* Registrar is widely used and reputable.
+
+### Analyst Assessment
+
+Threat actors frequently leverage domains registered within the previous 30 days. This domain did not meet that criterion.
+
+### Screenshot
+
+<img src="screenshots/04-domain-information.png" width="900">
+
+---
+
+## Step 5: Analyze Contacted Domains
+
+URLScan identified several domains contacted during page rendering.
+
+| Domain                     |
+| -------------------------- |
+| electronicsmartly.com      |
+| cdn.freshstore.cloud       |
+| analytics.freshstore.cloud |
+| rsms.me                    |
+
+### Findings
+
+* Supporting domains appeared to provide analytics and content delivery services.
+* No known malicious domains were identified during initial triage.
+
+### Analyst Assessment
+
+Contacted domains are important because they reveal third-party relationships that may indicate tracking services, malware delivery, or command-and-control activity.
+
+### Screenshot
+
+<img src="screenshots/05-contacted-domains.png" width="900">
+
+---
+
+## Step 6: Analyze IP Addresses
+
+The following infrastructure was identified:
 
 | IP Address      | Provider                |
 | --------------- | ----------------------- |
@@ -107,146 +188,120 @@ The following IP addresses were identified during the investigation:
 | 185.111.111.159 | CDNEXT Datacamp Limited |
 | 34.23.59.145    | Google Cloud Platform   |
 
-Analysis:
+### Findings
 
-* The website utilizes known infrastructure providers.
-* Cloudflare and Google Cloud are commonly used by legitimate organizations.
-* No immediately suspicious infrastructure was observed.
+* Cloudflare infrastructure identified.
+* Google Cloud infrastructure identified.
+* No immediately suspicious hosting providers observed.
 
----
+### Analyst Assessment
 
-### Step 6: Review Contacted Domains
+IP addresses alone are not sufficient to determine maliciousness because threat actors frequently rotate infrastructure. However, IP intelligence provides useful context during investigations.
 
-| Domain                     | Purpose           |
-| -------------------------- | ----------------- |
-| electronicsmartly.com      | Primary website   |
-| cdn.freshstore.cloud       | Content delivery  |
-| analytics.freshstore.cloud | Analytics         |
-| rsms.me                    | External resource |
+### Screenshot
 
-Analysis:
-
-* Contacted domains appear related to content delivery and analytics.
-* No obvious indicators of malicious infrastructure were identified.
+<img src="screenshots/06-ip-analysis.png" width="900">
 
 ---
 
-### Indicators of Compromise (IOCs)
+## Step 7: IOC Collection
 
-| IOC Type   | Value                 |
-| ---------- | --------------------- |
-| Domain     | electronicsmartly.com |
-| IP Address | 185.111.111.154       |
-| IP Address | 172.67.197.50         |
-| IP Address | 185.111.111.159       |
-| IP Address | 34.23.59.145          |
+The following Indicators of Compromise (IOCs) were collected during the investigation.
 
----
+| Type   | Value                 |
+| ------ | --------------------- |
+| Domain | electronicsmartly.com |
+| IP     | 185.111.111.154       |
+| IP     | 172.67.197.50         |
+| IP     | 185.111.111.159       |
+| IP     | 34.23.59.145          |
 
-## Analyst Assessment
+### Screenshot
 
-| Question                   | Assessment |
-| -------------------------- | ---------- |
-| Domain and title match?    | Yes        |
-| Recently registered?       | No         |
-| Evidence of impersonation? | No         |
-| Suspicious infrastructure? | No         |
-| Malicious classification?  | No         |
+<img src="screenshots/07-ioc-table.png" width="900">
 
 ---
 
-## Final Verdict
+## Final Analyst Verdict
 
-Based on the available URLScan.io data, there were no obvious indicators of phishing or malicious activity observed during the investigation.
+After reviewing the available evidence, the domain did not demonstrate sufficient indicators to classify it as malicious.
 
-The website's title aligned with the registered domain, the infrastructure appeared legitimate, and the domain had been active for approximately two years.
+### Summary
 
-At the time of analysis, there was insufficient evidence to classify the website as malicious.
+| Question                           | Result |
+| ---------------------------------- | ------ |
+| Domain impersonation detected?     | No     |
+| Suspicious page title?             | No     |
+| Newly registered domain?           | No     |
+| Malicious infrastructure observed? | No     |
+| Evidence of phishing?              | No     |
 
-> Analyst Statement:
->
-> "No indicators of compromise or phishing activity were observed during the initial triage. Continued monitoring is recommended if additional intelligence becomes available."
+### Final Recommendation
 
----
+> No evidence of phishing or malicious activity was identified during initial triage. Continue monitoring if additional intelligence becomes available.
 
-## Key Takeaways
+### Screenshot
 
-This project reinforced several SOC concepts:
-
-* Domain analysis
-* Title-domain mismatch identification
-* IOC identification
-* Infrastructure analysis
-* Initial phishing triage
-* Website legitimacy assessment
+<img src="screenshots/08-final-verdict.png" width="900">
 
 ---
 
 ## Skills Demonstrated
 
-* Security Operations (SOC)
-* Threat Intelligence
+* Security Operations Center (SOC) Analysis
 * URL Investigation
-* IOC Analysis
-* Phishing Analysis
-* Technical Documentation
-* Cybersecurity Reporting
+* Threat Intelligence
+* IOC Collection
+* Infrastructure Analysis
+* Phishing Triage
+* Incident Documentation
+* Technical Reporting
 
 ---
 
-## Screenshots
+## Key Lessons Learned
 
-### URLScan Overview
+This investigation reinforced several important concepts:
 
-```text
-Replace with:
-/screenshots/01-overview.png
-```
-
-### Screenshot Analysis
-
-```text
-Replace with:
-/screenshots/02-screenshot.png
-```
-
-### Domain Information
-
-```text
-Replace with:
-/screenshots/03-domain-info.png
-```
-
-### Contacted Domains
-
-```text
-Replace with:
-/screenshots/04-contacted-domains.png
-```
-
-### IP Analysis
-
-```text
-Replace with:
-/screenshots/05-ip-addresses.png
-```
-
-### Final Assessment
-
-```text
-Replace with:
-/screenshots/06-final-assessment.png
-```
+* Domains should always be read from right to left.
+* A title-domain mismatch is a common phishing indicator.
+* Domain age can provide valuable investigative context.
+* IP addresses may change and should not be treated as sole evidence.
+* IOC collection is a critical SOC responsibility.
+* Documentation is as important as technical analysis.
 
 ---
 
-## Future Improvements
+## Future Enhancements
 
-* Integrate VirusTotal URL analysis.
-* Correlate findings with AbuseIPDB.
-* Expand investigation using Shodan.
-* Compare findings with Cisco Talos Intelligence.
-* Automate IOC collection using Python.
+Future investigations will incorporate:
+
+* VirusTotal
+* AbuseIPDB
+* Cisco Talos Intelligence
+* Shodan
+* WHOIS Analysis
+* Automated IOC extraction with Python
+
+---
+
+## Repository Structure
+
+```text
+urlscan-phishing-investigation/
+│
+├── README.md
+│
+└── screenshots/
+    ├── 01-url-submission.png
+    ├── 02-website-screenshot.png
+    ├── 03-page-title.png
+    ├── 04-domain-information.png
+    ├── 05-contacted-domains.png
+    ├── 06-ip-analysis.png
+    ├── 07-ioc-table.png
+    └── 08-final-verdict.png
+```
 
 ---
 
@@ -254,8 +309,7 @@ Replace with:
 
 **Blessing O.**
 
-Aspiring SOC Analyst with interests in Threat Intelligence, Incident Response, and Security Operations.
+Aspiring SOC Analyst passionate about Security Operations, Threat Intelligence, and Incident Response.
 
-LinkedIn: `[INSERT LINK]`
-
-GitHub: `[INSERT LINK]`
+* LinkedIn: `[INSERT LINK]`
+* GitHub: `[INSERT LINK]`
