@@ -270,38 +270,6 @@ This investigation reinforced several important concepts:
 * IOC collection is a critical SOC responsibility.
 * Documentation is as important as technical analysis.
 
----
-
-## Future Enhancements
-
-Future investigations will incorporate:
-
-* VirusTotal
-* AbuseIPDB
-* Cisco Talos Intelligence
-* Shodan
-* WHOIS Analysis
-* Automated IOC extraction with Python
-
----
-
-## Repository Structure
-
-```text
-urlscan-phishing-investigation/
-│
-├── README.md
-│
-└── screenshots/
-    ├── 01-url-submission.png
-    ├── 02-website-screenshot.png
-    ├── 03-page-title.png
-    ├── 04-domain-information.png
-    ├── 05-contacted-domains.png
-    ├── 06-ip-analysis.png
-    ├── 07-ioc-table.png
-    └── 08-final-verdict.png
-```
 
 ---
 
@@ -311,5 +279,5 @@ urlscan-phishing-investigation/
 
 Aspiring SOC Analyst passionate about Security Operations, Threat Intelligence, and Incident Response.
 
-* LinkedIn: `[INSERT LINK]`
-* GitHub: `[INSERT LINK]`
+* LinkedIn: www.linkedin.com/in/ogburogho-blessing-22376b23a
+* GitHub: https://github.com/Kess1Gflex
